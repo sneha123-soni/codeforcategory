@@ -6,15 +6,21 @@ const authRoutes = require("./routes/auth");
 const categoryRoutes = require("./routes/category");
 const serviceRoutes = require("./routes/service");
 
-const app = express();
+// database table 
+const createCategoryTable = require("./model/category");
+const createServiceTable = require("./model/service");
 
+const connection = connectDb();
+
+createCategoryTable(connection);
+createServiceTable(connection);
+
+const app = express();
 
 const PORT = 3008;
 
 app.use(bodyParser.json());
 
-//db connection
-connectDb();
 
 //Routes
 app.use('/auth', authRoutes);

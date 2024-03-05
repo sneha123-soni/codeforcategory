@@ -1,28 +1,21 @@
-const mongoose = require("mongoose");
+const createServiceTable = (connection) => {
+    const query = `
+        CREATE TABLE IF NOT EXISTS service (
+            id INT AUTO_INCREMENT PRIMARY KEY,
+            categoryId INT NOT NULL,
+            serviceName VARCHAR(255) NOT NULL,
+            type ENUM('Normal', 'VIP') NOT NULL,
+            priceOptions JSON,
+            FOREIGN KEY (categoryId) REFERENCES category(id)
+        )
+    `;
+    connection.query(query, (err, results) => {
+        if (err) {
+            console.error('Error creating service table:', err);
+            process.exit(1);
+        }
+        console.log('Service table created successfully');
+    });
+};
 
-const service = new mongoose.Schema({
-    categoryId:{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Categories'
-    },
-
-    serviceName: String,
-    type:{
-        type:String,
-        enum:['Normal','VIP']
-    },
-    priceOptions:[
-        {
-            durattion: String,
-            price: Number,
-            type:{
-                type:String,
-                enum: ['Hourly', 'Weekly', 'Monthly']
-            }
-
-    }
-]
-
-});
-
-module.exports = mongoose.model('Service',service);
+module.exports = createServiceTable;
