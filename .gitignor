@@ -1,6 +1,0 @@
-DB_USER = "root"
-DB_PASSWORD = "Snehasoni123"
-DB_NAME = "basic"
-
-
-./env
